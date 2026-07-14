@@ -134,6 +134,8 @@ p {
   perspective: 2500px;
   overflow: hidden;
   background: #121212; /* Fundo escuro atrás da página que está virando */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .page-layer {
@@ -160,36 +162,8 @@ p {
   transform-origin: left center;
 }
 
-/* Disparo da animação 3D */
-.page-active.is-flipping {
-  animation: pageFlip3D 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
-}
-
-@keyframes pageFlip3D {
-  0% {
-    transform: rotateY(0deg);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  }
-  20% {
-    /* Começa a levantar da direita e projeta sombra densa */
-    box-shadow: 40px 0 70px rgba(0, 0, 0, 0.45), 15px 0 25px rgba(0, 0, 0, 0.25);
-  }
-  50% {
-    /* Meio do caminho, perpendicular à tela: sombra massiva com dispersão lateral */
-    box-shadow: 120px 0 150px rgba(0, 0, 0, 0.5), 40px 0 60px rgba(0, 0, 0, 0.35);
-  }
-  80% {
-    /* Passando para a esquerda, sombra projeta-se na direção contrária */
-    box-shadow: -40px 0 70px rgba(0, 0, 0, 0.35), -15px 0 25px rgba(0, 0, 0, 0.2);
-  }
-  100% {
-    transform: rotateY(-180deg);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  }
-}
-/* Sombreamento da Dobra (Luz e Sombra no Papel - APENAS NA DIREITA) */
-.page-active::after {
-  content: '';
+/* Sombra dinâmica controlada por JS */
+.page-shadow {
   position: absolute;
   top: 0;
   left: 0;
@@ -197,34 +171,43 @@ p {
   height: 100%;
   pointer-events: none;
   z-index: 10;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%);
   opacity: 0;
-  /* Começa transparente e cria a sombra suave na extrema direita (80% a 100%) */
-  background: linear-gradient(to right, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0.35) 100%);
-  transition: opacity 0.3s;
 }
 
-.page-active.is-flipping::after {
-  animation: foldLighting 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+/* Dica de deslizar premium */
+.swipe-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #78726c;
+  font-size: 0.85rem;
+  font-weight: 500;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0.8;
+  z-index: 5;
 }
 
-@keyframes foldLighting {
-  0% {
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.45) 100%);
+.swipe-hint.fade-out {
+  opacity: 0;
+  transform: translate(-50%, 15px);
+}
+
+.swipe-arrow {
+  display: inline-block;
+  animation: bounceLeft 1.5s infinite;
+}
+
+@keyframes bounceLeft {
+  0%, 100% {
+    transform: translateX(0);
   }
   50% {
-    opacity: 1;
-    /* No meio da animação (pico da dobra), a sombra fica ligeiramente mais larga e escura */
-    background: linear-gradient(to right, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.65) 100%);
-  }
-  85% {
-    opacity: 1;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.4) 100%);
-  }
-  100% {
-    opacity: 0;
+    transform: translateX(-6px);
   }
 }

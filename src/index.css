@@ -26,6 +26,8 @@ body {
   padding: 15px 20px 5px 35px;
   font-size: 1.125rem;
   line-height: 1.4;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 p {
@@ -71,4 +73,54 @@ p {
   color: #78726c;
   line-height: 1.3;
   cursor: default;
+}
+
+.quote-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 550px;
+  width: 90%;
+  padding: 40px;
+  transition: all 0.3s ease;
+}
+
+.fetch-button {
+  margin-top: 25px;
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: #403e3b;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+}
+
+.fetch-button:hover:not(:disabled) {
+  background: #1a1918;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fetch-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.fetch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #d9383a;
+  font-size: 0.85rem;
+  margin-top: 15px;
+  background: #fdf2f2;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #fde8e8;
 }

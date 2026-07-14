@@ -4,12 +4,12 @@ import axios from "axios";
 
 function Home() {
   const [currentQuote, setCurrentQuote] = useState({
-    text: "É estupidez pedir aos deuses aquilo que se pode conseguir sozinho.",
-    author: "Epicuro",
+    text: "",
+    author: "",
   });
   const [nextQuote, setNextQuote] = useState({
-    text: "É estupidez pedir aos deuses aquilo que se pode conseguir sozinho.",
-    author: "Epicuro",
+    text: "",
+    author: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
